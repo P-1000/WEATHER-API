@@ -1,4 +1,7 @@
 const btn = document.getElementById("but")
+const loc = document.querySelector(".info .location")
+const temp = document.querySelector(".box .info .temp");
+
 
 let latitude,longitude;
 if (navigator.geolocation) {
@@ -18,12 +21,22 @@ const handleSearch = async ()=>{
                const wapi = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${keywe}`;
                const response = await fetch(wapi);
                const data = await response.json();
-               console.log(data)
+              console.log(data)
+                let {temp_max,temp_min,temp ,} = data.main
+              loc.innerHTML=data.name;
+                const celsius =  kTc(temp);
+                temp.innerHTML=temp_max
+                
         } catch (error) {
             console.log(error)
             console.log("error occured")
+            console.log("Geolocation is not supported by this browser.");
         }
 
 }
-
+function kTc(kelvin){
+  let celsius = kelvin-273.15;
+  return Math.ceil(celsius);
+}
 btn.addEventListener('click',handleSearch)
+ 
