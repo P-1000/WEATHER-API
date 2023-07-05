@@ -1,24 +1,24 @@
 // Select elements from the HTML
-const loc = document.querySelector(".info .location");
+const locationElement = document.querySelector(".info .location");
 const tempElement = document.querySelector(".box .info .temp");
 
 // Function to convert Kelvin to Celsius
-function kTc(kelvin) {
+function convertKelvinToCelsius(kelvin) {
   let celsius = kelvin - 273.15;
   return Math.ceil(celsius);
 }
 
 // Weather fetching function
-const handleSearch = async () => {
+const fetchWeather = async () => {
   try {
-    const keywe = "4a440ed568b8454c7f5fd1cc451f6ca5";
+    const apiKey = "4a440ed568b8454c7f5fd1cc451f6ca5";
 
     // Check if latitude and longitude are available
     if (latitude !== undefined && longitude !== undefined) {
-      const wapi = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${keywe}`;
+      const weatherAPI = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
 
       // Fetch weather data from the OpenWeatherMap API
-      const response = await fetch(wapi);
+      const response = await fetch(weatherAPI);
       const data = await response.json();
       console.log(data);
 
@@ -26,10 +26,10 @@ const handleSearch = async () => {
       let { temp_max, temp_min, temp } = data.main;
 
       // Display location name
-      loc.innerHTML = data.name;
+      locationElement.innerHTML = data.name;
 
       // Convert temperature from Kelvin to Celsius
-      const celsius = kTc(temp);
+      const celsius = convertKelvinToCelsius(temp);
 
       // Display the maximum temperature
       tempElement.innerHTML = celsius;
@@ -38,7 +38,7 @@ const handleSearch = async () => {
     }
   } catch (error) {
     console.log(error);
-    console.log("An error occurred.");
+    console.log("An error occurred while fetching weather data.");
   }
 };
 
@@ -50,7 +50,7 @@ if (navigator.geolocation) {
     longitude = position.coords.longitude;
     console.log("Latitude: " + latitude + "\nLongitude: " + longitude);
     setTimeout(() => {
-      handleSearch();
+      fetchWeather();
     }, 100);
   });
 } else {
