@@ -56,3 +56,23 @@ if (navigator.geolocation) {
 } else {
   console.log("Geolocation is not supported by this browser.");
 }
+
+
+// Function to update current day and time
+function updateDateTime() {
+  const dateElement = document.getElementById("date");
+  const timeElement = document.getElementById("time");
+
+  // Get the current date and time
+  const now = new Date();
+  const options = { weekday: 'long', hour: 'numeric', minute: 'numeric', hour12: true };
+  const formattedDate = now.toLocaleDateString(undefined, options);
+  const formattedTime = now.toLocaleTimeString(undefined, options);
+
+  // Update the HTML elements with the current day and time
+  dateElement.textContent = formattedDate;
+  timeElement.textContent = formattedTime;
+}
+
+// Call the updateDateTime function initially and every second to keep it up to date
+setInterval(updateDateTime, 1000);
